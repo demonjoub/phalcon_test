@@ -16,6 +16,8 @@ try {
         '../app/models/'
     ])->register();
 
+
+
     // Create a DI
     $di = new FactoryDefault();
 
@@ -30,11 +32,19 @@ try {
     });
 
     // Setup the view component
-    $di->set('view', function () {
-        $view = new View();
-        $view->setViewsDir('../app/views/');
-        return $view;
-    });
+    $di->set('view', 
+        function () {
+            $view = new View();
+            $view->setViewsDir('../app/views/');
+            // user .volt view template 
+            $view->registerEngines(
+                [
+                    ".volt" => "Phalcon\\Mvc\\View\\Engine\\Volt",
+                ]
+            );
+            return $view;
+        }
+    );
 
     // Setup a base URI so that all generated URIs include the "tutorial" folder
     $di->set('url', function () {
